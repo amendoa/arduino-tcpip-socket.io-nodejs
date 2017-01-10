@@ -5,8 +5,8 @@ let defaultRoute = (app) => {
 	let route = Router();
 	let defaultController = new DefaultController(app);
 
-	router.get('/', defaultController.getDefault);
-	app.use(router);
+	route.get('/', defaultController.getDefault);
+	app.use(route);
 };
 
 export default defaultRoute;
