@@ -13,10 +13,11 @@ const SERVER_PORT = '8080';
 app.use(compression());
 app.use(helmet());
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 app.listen(SERVER_PORT, SERVER_IP, () => {
-	winston.log('info', `Server listering on port: ${SERVER_PORT} IP: ${SERVER_IP}`);
+	winston.log('info', `Server listering on port: ${SERVER_PORT} and IP: ${SERVER_IP}`);
 });
 
 export default app;

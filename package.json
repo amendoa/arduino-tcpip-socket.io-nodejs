@@ -4,7 +4,7 @@
   "description": "Arduino talking to NodeJS application via TCP/IP and using socket.io.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js --exec babel-node"
+    "start": "nodemon server.js --exec babel-node --presets es2015"
   },
   "repository": {
     "type": "git",
