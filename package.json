@@ -1,0 +1,23 @@
+{
+  "name": "arduino-tcpip-socket.io-nodejs",
+  "version": "1.0.0",
+  "description": "Arduino talking to NodeJS application via TCP/IP and using socket.io.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js --exec babel-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almeida-matheus/arduino-tcpip-socket.io-nodejs.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "SocketIO"
+  ],
+  "author": "Matheus Almeida",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/almeida-matheus/arduino-tcpip-socket.io-nodejs/issues"
+  },
+  "homepage": "https://github.com/almeida-matheus/arduino-tcpip-socket.io-nodejs#readme"
+}
