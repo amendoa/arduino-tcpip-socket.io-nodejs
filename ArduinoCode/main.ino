@@ -1,30 +1,47 @@
 #include <SPI.h>
 #include <Ethernet.h>
+#include <ArduinoJson.h>
 
-IPAddress clientIP(192, 168, 0, 255);
-IPAddress serverIP(192, 168, 15, 7);
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+
+IPAddress clientIP(192, 168, 0, 177);
+IPAddress serverIP(192, 168, 0, 100);
+
 int serverPort = 1337;
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x00, 0x6C, 0xFE };
 
 EthernetClient ethernetClient;
 
-void setup () {
-	Ethernet.begin(mac, clientIP);
-	Serial.begin(9600);
-	delay(1500);
-	Serial.println("Conecting");
+JsonObject& stringToJSON (const char* charJSONString) {
+	StaticJsonBuffer<200> jsonBuffer;
+	return jsonBuffer.parseObject(charJSONString);
+}
 
-	if (ethernetClient.connect(serverIP, serverPort)) {
-		Serial.println('Connected');
-	} else {
-		Serial.println('Error');
-	}
-	pinMode (11, OUTPUT);
+void setup () {
+	pinMode(13, OUTPUT);
+	Ethernet.begin(mac, clientIP);
+	Serial.begin(9600);	
 }
 
 void loop () {
-	digitalWrite (11, HIGH);
-	delay (1000);
-	digitalWrite (11, LOW);
-	delay (1000);
+	digitalWrite(13, HIGH);
+	delay(1000);
+	digitalWrite(13, LOW);
+ 	delay(1000);
+	
+	if (!ethernetClient.connected()) {
+		ethernetClient.stop();
+		ethernetClient.connect(serverIP, serverPort);
+		Serial.println("Disconnected");
+	} else {
+		Serial.println("Conectado");
+		if (ethernetClient.available()) {
+			String command = ethernetClient.readString();
+			command.trim();
+			const char* serverMessage = command.c_str();
+			JsonObject& JSONObject = stringToJSON(serverMessage);
+			Serial.println((int)JSONObject["pin"]);
+		}
+	}
+	delay(2000);
 }
+
