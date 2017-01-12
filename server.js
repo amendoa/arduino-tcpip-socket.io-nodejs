@@ -27,6 +27,8 @@ app.use(helmet());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.set('view engine', 'pug');
+app.set('views', './app/views');
 
 //Http server
 server.listen(SERVER_HTTP_PORT, SERVER_HTTP_IP, () => {
@@ -41,7 +43,7 @@ serverTCP.listen(SERVER_TCPIP_PORT, SERVER_TCPIP_IP, () => {
 serverTCP.on('connection', (socket) => {
 	setTimeout(function () {
 		socket.write('{pin: 13, mode: 1}');
-	}, 5000)
+	}, 5000);
 	currentArduino = socket;
 	winston.log('info', 'New client is now connected');
 });
