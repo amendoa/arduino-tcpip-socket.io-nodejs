@@ -51,7 +51,12 @@ serverTCP.on('connection', (socket) => {
 
 //Socket io server
 io.on('connection', (client) => {
-	winston.log('info', 'new client io');
+	winston.log('info', 'New client io connected');
+});
+
+io.on('message', (message) => {
+	winston.log('info', 'New client io message');
+	winston.log('info', message);
 });
 
 /*serverTCP.on('connection', (socket) => {

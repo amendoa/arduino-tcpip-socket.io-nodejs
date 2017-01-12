@@ -19,7 +19,7 @@ JsonObject& stringToJSON (const char* charJSONString) {
 void setup () {
 	pinMode(13, OUTPUT);
 	Ethernet.begin(mac, clientIP);
-	Serial.begin(9600);	
+	Serial.begin(9600);
 }
 
 void loop () {
@@ -44,4 +44,3 @@ void loop () {
 	}
 	delay(2000);
 }
-

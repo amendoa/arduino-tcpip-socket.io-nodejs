@@ -1,9 +1,15 @@
 html
 	head
+		link(rel="stylesheet", href="/public/stylesheet/application.css")
 		title
-			| title
+			| Arduino :D
 	body
-		h1
-			| message
+		div.center
+			div.onoffswitch
+				input(type="checkbox", name="onoffswitch", class="onoffswitch-checkbox", id="myonoffswitch", hecked)#interruptor
+				label(class="onoffswitch-label", for="myonoffswitch")
+					span(class="onoffswitch-inner")
+					span(class="onoffswitch-switch")
+
 		script(type='text/javascript', src='/public/javascript/libs/socket.io/main.min.js')
 		script(type='text/javascript', src='/public/javascript/scripts/app/main.js')
