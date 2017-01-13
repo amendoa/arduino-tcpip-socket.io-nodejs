@@ -23,7 +23,7 @@ void loop () {
 		ethernetClient.connect(serverIP, serverPort);
 		Serial.println("Disconnected");
 	} else {
-		Serial.println("Conectado");
+		Serial.println("Connected");
 		if (ethernetClient.available()) {
 			StaticJsonBuffer<200> jsonBuffer;
 
