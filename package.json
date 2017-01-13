@@ -12,7 +12,9 @@
   },
   "keywords": [
     "NodeJS",
-    "SocketIO"
+    "SocketIO",
+    "Arduino",
+    "TCP/IP"
   ],
   "author": "Matheus Almeida",
   "license": "MIT",
