@@ -1,3 +1,4 @@
+
 #include <SPI.h>
 #include <Ethernet.h>
 #include <ArduinoJson.h>
@@ -11,11 +12,6 @@ int serverPort = 1337;
 
 EthernetClient ethernetClient;
 
-JsonObject& stringToJSON (const char* charJSONString) {
-	StaticJsonBuffer<200> jsonBuffer;
-	return jsonBuffer.parseObject(charJSONString);
-}
-
 void setup () {
 	pinMode(13, OUTPUT);
 	Ethernet.begin(mac, clientIP);
@@ -23,11 +19,6 @@ void setup () {
 }
 
 void loop () {
-	digitalWrite(13, HIGH);
-	delay(1000);
-	digitalWrite(13, LOW);
- 	delay(1000);
-	
 	if (!ethernetClient.connected()) {
 		ethernetClient.stop();
 		ethernetClient.connect(serverIP, serverPort);
@@ -35,12 +26,18 @@ void loop () {
 	} else {
 		Serial.println("Conectado");
 		if (ethernetClient.available()) {
-			String command = ethernetClient.readString();
-			command.trim();
-			const char* serverMessage = command.c_str();
-			JsonObject& JSONObject = stringToJSON(serverMessage);
-			Serial.println((int)JSONObject["pin"]);
+			StaticJsonBuffer<200> jsonBuffer;
+
+			String serverMessage = ethernetClient.readString();
+			JsonObject& jsonObject = jsonBuffer.parseObject(serverMessage);
+			digitalWrite((int)jsonObject["pin"], !digitalRead((int)jsonObject["pin"]));
+
+			JsonObject& serverResponse = jsonBuffer.createObject();
+			serverResponse["pin"] = jsonObject["pin"];
+			serverResponse["pinMode"] = digitalRead((int)jsonObject["pin"]);
+			char buffer[256];
+			serverResponse.printTo(buffer, sizeof(buffer));
+			ethernetClient.print(buffer);
 		}
 	}
-	delay(2000);
 }

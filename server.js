@@ -12,7 +12,6 @@ import net from 'net';
 let app = express();
 let server = http.createServer(app); 
 let io = socketIO.listen(server);
-let serverTCP = net.createServer();
 let currentArduino = null;
 
 const SERVER_HTTP_PORT = 3000;
@@ -37,14 +36,15 @@ server.listen(SERVER_HTTP_PORT, SERVER_HTTP_IP, () => {
 });
 
 //TCP server
-serverTCP.listen(SERVER_TCPIP_PORT, SERVER_TCPIP_IP, () => {
+net.createServer((sock) => {
+	sock.on('data', (data) => {
+		winston.log('info', 'New message from TCP client');
+		const json = JSON.parse(data.toString().trim());
+		winston.log('info', json);
+	});
+}).listen(SERVER_TCPIP_PORT, SERVER_TCPIP_IP, () => {
 	winston.log('info', `TCP/IP Server listering on port: ${SERVER_TCPIP_PORT} and IP: ${SERVER_HTTP_IP}`);
-});
-
-serverTCP.on('connection', (socket) => {
-	setTimeout(function () {
-		socket.write('{pin: 13, mode: 1}');
-	}, 5000);
+}).on('connection', (socket) => {
 	currentArduino = socket;
 	winston.log('info', 'New client is now connected');
 });
@@ -52,17 +52,16 @@ serverTCP.on('connection', (socket) => {
 //Socket io server
 io.on('connection', (client) => {
 	winston.log('info', 'New client io connected');
+	client.on('message', (message) => {
+		winston.log('info', 'New client io message');
+		winston.log('info', message);
+		if (currentArduino) {
+			const arduinoMessage = {
+				pin: message
+			};
+			currentArduino.write(JSON.stringify(arduinoMessage));
+		}
+	});
 });
-
-io.on('message', (message) => {
-	winston.log('info', 'New client io message');
-	winston.log('info', message);
-});
-
-/*serverTCP.on('connection', (socket) => {
-	winston.log('info', 'new client');
-});*/
 
 export default app;
-
-//http://192.168.15.7:3000/

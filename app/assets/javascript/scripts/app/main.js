@@ -6,12 +6,9 @@ var socket = new io.connect({
 	rememberTransport: false
 });
 
-function turnLedOn () {
-	socket.send(1);
-}
-
-function turnLedOff () {
-	socket.send(0);
+function toggleLed () {
+	console.log('opa');
+	socket.send(13);
 }
 
 socket.on('connect', function () {
@@ -21,3 +18,5 @@ socket.on('connect', function () {
 socket.on('disconnect', function () {
 	console.log('Web client has been disconnected');
 });
+
+document.getElementById('interruptor').addEventListener('click', toggleLed);
