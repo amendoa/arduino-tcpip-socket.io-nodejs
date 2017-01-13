@@ -8,7 +8,7 @@
 ### Initialization
   - Run 'npm start' in your terminal at project root
   - Access localhost:3000 in your browser
-  - Obviously do you need a Arduino with a Ethernet shield in your LAN
+  - Obviously you need an Arduino with an Ethernet shield connected in your LAN
   - You can change ports and IPs if you want
 
 
