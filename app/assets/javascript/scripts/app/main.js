@@ -1,5 +1,5 @@
 //I'm writing with es5 because this is just a test,
-//and i don't want configure one task for compile es6 or something like that
+//and i do not need configure one task for compile es6 or something like that
 
 var socket = new io.connect({
 	port: 3000,
@@ -7,7 +7,7 @@ var socket = new io.connect({
 });
 
 function toggleLed () {
-	console.log('opa');
+	console.log('Toggle led');
 	socket.send(13);
 }
 
